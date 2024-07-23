@@ -1,11 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int soma_impares(int n){
-
-  return (n - 1) + (n + 1);
-
-}
+int soma_impares(int n);
 
 int main(){
 
@@ -17,4 +13,10 @@ int main(){
   printf("A soma dos n primeiros numeros naturais impares e: %d\n", soma_impares(n));
   
   return 0;
+}
+
+int soma_impares(int n){
+
+  return (n - 1) + (n + 1);
+
 }
