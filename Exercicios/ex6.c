@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <ctype.h>
 
 void shift_string(char *str);
 
@@ -19,6 +19,8 @@ int main(){
 
 void shift_string(char *str){
   while(*str){
+
+    if (isalpha(*str)) {
     if(*str == 'z'){
       *str = 'a';
     }
@@ -28,6 +30,7 @@ void shift_string(char *str){
     else{
       (*str)++;
     }
-    str++;
   }
+  str++;
+}
 }
