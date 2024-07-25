@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lista.h"
+
 
 #define MAX 10
 
+typedef struct lista{
 
+    int itens[MAX], n;
+
+}Lista;
 
 Lista* criarLista(){
     // Lista* é pq esta armazenando uma lista
