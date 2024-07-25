@@ -14,14 +14,19 @@ int estaVazia(Lista* l);
 int estaCheia(Lista* l);
 void inserirElemento(Lista* l, int v);
 void imprimeLista(Lista* l);
+void removeElemento(Lista* l, int i);
 
 int main(){
+
+    int i = 2;
 
     Lista* Lista = criarLista();
     estaVazia(Lista); //Esta passando Lista para l
     estaCheia(Lista);
     inserirElemento(Lista, 2);
+    inserirElemento(Lista, 3);
     imprimeLista(Lista);
+    removeElemento(Lista, i);
     return 0;
 }
 
@@ -78,4 +83,16 @@ void imprimeLista(Lista* l){
     else{
     printf("Lista vazia!\n");
     }
+}
+
+void removeElemento(Lista* l, int i){
+    if(!estaVazia(l) && (i > 0 && i <= MAX)){
+        for(int x = i; x < l->n; x++){
+            l->itens[x-1] = l->itens[x];
+            l->n--;
+        }
+    }
+    else{
+        printf("...");
+}
 }
