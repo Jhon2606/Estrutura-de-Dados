@@ -13,6 +13,7 @@ void inicializa (int n, Aluno **tab);
 void leAluno (int n, Aluno **tab, int i);
 void imprimeAluno(int n, Aluno** tab, int i);
 void retiraAluno(int n, Aluno** tab, int i);
+void imprime_tudo(int n, Aluno** tab);
 
 int main(){
 
@@ -20,11 +21,16 @@ int main(){
   Aluno *tab[num];
 
   inicializa(num, tab);
+  printf("Digite a posicao do auno que deseja adicionar:\n");
+  scanf("%d", &i);
   leAluno(num, tab, i);
+  printf("Digite a posicao do auno que deseja imprimir:\n");
+  scanf("%d", &i);
   imprimeAluno(num, tab, i);
-  printf("Digite a posicão do auno que deseja remover:\n");
+  printf("Digite a posicao do auno que deseja remover:\n");
   scanf("%d", &i);
   retiraAluno(num, tab, i);
+  imprime_tudo(num, tab);
 
   i = 0;
   for(i = 0; i < num; i++){
@@ -45,21 +51,21 @@ void inicializa (int n, Aluno **tab){
 }
 
 void leAluno (int n, Aluno **tab, int i){
-  for(i = 0; i < n; i++){
-    tab[i] = (Aluno *)malloc(sizeof(Aluno));
-  }
-  for(i = 0; i < n; i++){
-    printf("Digite o nome do aluno:\n");
-    scanf("%s", tab[i]->nome);
-    printf("Digite a matricula do aluno:\n");
-    scanf("%d", &tab[i]->matricula);
-  }
+
+  tab[i] = (Aluno *)malloc(sizeof(Aluno));
+  printf("Digite o nome do aluno:\n");
+  scanf("%s", tab[i]->nome);
+  printf("Digite a matricula do aluno:\n");
+  scanf("%d", &tab[i]->matricula);
 }
 
 void imprimeAluno(int n, Aluno** tab, int i){
-  for(i = 0; i < n; i++){
-    printf("Aluno: %s\n", tab[i]->nome);
-    printf("Matricula: %d\n", tab[i]->matricula);
+  if(tab[i] != NULL){
+  printf("Aluno: %s\n", tab[i]->nome);
+  printf("Matricula: %d\n", tab[i]->matricula);
+  }
+  else{
+    printf("Campo não registrado.\n");
   }
 }
 
@@ -67,7 +73,7 @@ void retiraAluno(int n, Aluno** tab, int i){
 
   int j;
   if (i < 0 || i >= n) {
-  printf("Índice inválido.\n");
+  printf("Indice invalido.\n");
   return;
   }
   free(tab[i]);
@@ -76,4 +82,14 @@ void retiraAluno(int n, Aluno** tab, int i){
     tab[j] = tab[j + 1];
   }
   tab[n - 1] = NULL;  
+}
+
+void imprime_tudo(int n, Aluno** tab){
+  
+  int i;
+
+  for(i = 0; i < n; i++){
+    printf("Aluno: %s\n", tab[i]->nome);
+    printf("Matricula: %d\n", tab[i]->matricula);
+  }
 }
