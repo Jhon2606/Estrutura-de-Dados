@@ -161,3 +161,4 @@ Nolista* retpoint(Nolista** l, int v){
         }
     }
     return NULL;
+}

@@ -87,7 +87,7 @@ void removeElemento(Descritor*l, int v){
     printf("Elemento nao encontrado.\n");
     }
     else{
-        if(ant=NULL){
+        if(ant==NULL){
             l->prim=p->prox;
             if(l->prim==NULL){
                 l->ult=NULL;
