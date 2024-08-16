@@ -17,6 +17,7 @@ void inserirElementoInicio(Descritor* l, int v);
 void imprimeLista(Descritor* l);
 void InserirElementoFim(Descritor* l, int v);
 void removeElemento(Descritor* l, int v);
+void liberarLista(Descritor* l);
 
 int main(){
     Descritor lista = criarLista();
@@ -24,6 +25,7 @@ int main(){
     inserirElementoInicio(&lista, 2);
     inserirElementoInicio(&lista, 3);
     imprimeLista(&lista);
+    liberarLista(&lista);
     return 0;
 }
 
@@ -81,7 +83,7 @@ void InserirElementoFim(Descritor* l, int v){
 
 void removeElemento(Descritor*l, int v){
     Nolista* p, *ant = NULL;
-    for(p=l->prim;p!=NULL&&p->info!= v;p=p->prox);
+    for(p=l->prim;p!=NULL&&p->info!= v;p=p->prox)
     ant=p;
     if(p==NULL){
     printf("Elemento nao encontrado.\n");
@@ -103,4 +105,14 @@ void removeElemento(Descritor*l, int v){
         l->n--;
         free(p);
     }
+}
+
+void liberarLista(Descritor* l){
+    Nolista* p, *temp;
+    for(p=l;p!=NULL;p=temp){
+        temp=p->prox;
+        free(p);
+    }
+    l->prim = l->ult = NULL;
+    l->n = 0;
 }

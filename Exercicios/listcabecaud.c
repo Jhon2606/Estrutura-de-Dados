@@ -18,6 +18,7 @@ void inserirElementoInicio(Lista* l, int v);
 void imprimeLista(Lista* l);
 void inserirElementoFim(Lista* l, int v);
 void removeElemento(Lista* l, int v);
+void LiberarLista(Lista* l);
 
 int main(){
     Lista lista;
@@ -26,6 +27,7 @@ int main(){
     inserirElementoInicio(&lista, 2);
     inserirElementoInicio(&lista, 3);
     imprimeLista(&lista);
+    LiberarLista(&lista);
     return 0;
 }
 
@@ -92,4 +94,13 @@ void removeElemento(Lista* l, int v){
         ant->prox = p->prox;
         free(p);
     }
+}
+
+void LiberarLista(Lista* l){
+    Nolista* p, *temp;
+    for(p = l;p != NULL;p = temp){
+    temp = p-> prox;
+    free(p);
+    }
+    l->cab->prox=l->cau;
 }
