@@ -118,7 +118,7 @@ Nolista* concatena(Nolista** l, Nolista** l2){
   Nolista *p = NULL;
   if(EstaVazia(l) || EstaVazia(l2)){
     printf("Nao existem duas duas listas a serem concatenadas.\n");
-    return *l;
+    return NULL;
   }
   else{
     for(p =*l; p->prox!=NULL; p=p->prox);
@@ -128,21 +128,17 @@ Nolista* concatena(Nolista** l, Nolista** l2){
 }
 //Separa a lista ate o valor indicado e cira outra lista de onde parou
 Nolista* separa(Nolista** l, int n){
-  Nolista* p=NULL, *q=NULL;
+  Nolista* p, *nova;
   if(!EstaVazia(l)){
     for(p=*l;p!=NULL; p=p->prox){
-      q=p;
+      if(p->info==n){
+        nova = p->prox;
+        p->prox=NULL;
+      }
     }
   }
   else{
-    printf("A lista esta vazia.\n");
+    printf("A lista esta vazia\n");
   }
-  if(p==NULL){
-    return NULL;
-  }
-  if(q==NULL){
-    return *l;
-  }
-  q->prox=NULL;
-  return p;
+  return nova;
 }

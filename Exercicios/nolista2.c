@@ -16,6 +16,7 @@ void liberarLista(Nolista** l);
 void insereOrdenado(Nolista** l, int v);
 int numElementos(Nolista** l);
 Nolista* retpoint(Nolista** l, int v);
+void imprimeOrdem(Nolista** l);
 
 int main(){
     Nolista* lista;
@@ -34,6 +35,8 @@ int main(){
     printf("O numero de elementos na lista e %d\n", numElementos(&lista));
     Nolista* p = retpoint(&lista, numElementos(&lista));
     printf("%d\n", p -> info);
+    printf("-------------\n");
+    imprimeOrdem(&lista);
 
     return 0;
 }
@@ -161,4 +164,29 @@ Nolista* retpoint(Nolista** l, int v){
         }
     }
     return NULL;
+}
+
+void imprimeOrdem(Nolista** l) {
+    if (!estaVazia(l)) {
+        Nolista* p = *l;
+        Nolista* prev = NULL;
+
+        // Encontra o último elemento
+        while (p != NULL) {
+            prev = p;
+            p = p->prox;
+        }
+
+        // Imprime do último ao primeiro
+        while (prev != NULL) {
+            p = *l;
+            while (p->prox != prev && p->prox != NULL) {
+                p = p->prox;
+            }
+            printf("%d\n", prev->info);
+            prev = (prev == *l) ? NULL : p;
+        }
+    } else {
+        printf("A lista esta vazia!");
+    }
 }
