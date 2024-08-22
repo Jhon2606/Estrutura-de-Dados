@@ -7,7 +7,7 @@ typedef struct nolista{
 }Nolista;
 
 typedef struct pilha{
-    struct Nolista* prim;
+    struct nolista* prim;
 }Pilha;
 
 Pilha* CriarPilha(){
@@ -63,9 +63,9 @@ float Pop(Pilha* p){
 
 void Liberarpilha(Pilha* p){
     Nolista* t, *temp;
-    if(!EstaVazia(p)){
-        for(t = p->prim; p != NULL; t =  temp){
-            temp = t ->prox;
+    if(!EstaVazia(p)){ 
+        for(t = p->prim; p != NULL; t = temp){
+            temp = t->prox;
             free(t);
         }
     }
@@ -75,11 +75,24 @@ void Liberarpilha(Pilha* p){
     free(p);
 }
 
+float VerTopo(Pilha* p){
+    float a;
+    Nolista* t;
+    if(!EstaVazia(p)){
+        return p->prim->info;
+    }
+    else{
+        printf("A lista esta vazia.\n");
+    }
+}
+
 int main(){
     Pilha* pilha = CriarPilha();
     Push(pilha, 3.5);
     Push(pilha, 3.2);
     Push(pilha, 3.3);
     ImprimePilha(pilha);
+    float i = VerTopo(pilha);
+    printf("%f", i);
     return 0;
 }
