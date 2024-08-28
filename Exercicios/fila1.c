@@ -42,7 +42,7 @@ void inserir(Fila* f, float v){
         printf("Espaco nao alocado.\n");
     }
 }
-
+//A funcao de impressao e so para teste, normalmente nao usamos a impressao na fila
 void imprimeFila(Fila* f){
     Nolista* p;
     if(!estaVazia(f)){
