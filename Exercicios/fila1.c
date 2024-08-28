@@ -78,12 +78,25 @@ void LiberaFila(Fila* f){
     free(f);
 }
 
+float retornaPrimeiro(Fila* f){
+    float a;
+    Nolista* t;
+    if(!estaVazia(f)){
+        return f->ini->info;
+    }
+    else{
+        printf("A lista esta vazia.\n");
+    }
+}
+
 int main(){
     Fila* fila = CriarFila();
     inserir(fila, 1);
     inserir(fila, 2);
     inserir(fila, 3);
     imprimeFila(fila);
+    float i = retornaPrimeiro(fila);
+    printf("%.1f", i);
 
     return 0;
 }
