@@ -85,7 +85,30 @@ float retornaPrimeiro(Fila* f){
         return f->ini->info;
     }
     else{
-        printf("A lista esta vazia.\n");
+        printf("A fila esta vazia.\n");
+    }
+}
+
+void FuraFila(Fila* f, float v){
+    Nolista* p, *ant  = NULL;
+    if(!estaVazia(f)){
+        for(p = f->ini; p != NULL && p->info!= v; p = p->prox){
+            ant = p;
+        }
+        if(p != NULL && p->info == v){
+            if(ant != NULL){
+            ant->prox = p->prox;
+            p->prox = f->ini;
+            f->ini = p;
+        }else{
+            printf("Este valor ja esta no inicio.\n");
+        }
+        }else{
+            printf("Valor nao encontrado.\n");
+        }
+        
+    }else{
+        printf("Fila vazia.\n");
     }
 }
 
@@ -97,6 +120,8 @@ int main(){
     imprimeFila(fila);
     float i = retornaPrimeiro(fila);
     printf("%.1f", i);
+    FuraFila(fila, 9);
+    imprimeFila(fila);
 
     return 0;
 }
