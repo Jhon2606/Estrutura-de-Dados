@@ -77,7 +77,7 @@ NoLista* buscaElemento(NoLista** l, int v) {
 
 void removerElemento(NoLista** l, int v) {
     NoLista* p = buscaElemento(l, v);
-    if (p != NULL) {
+    if (p != NULL) {    
         if (*l == p)
             (*l) = p->prox;
         else

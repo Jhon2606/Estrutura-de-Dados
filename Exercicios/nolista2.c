@@ -152,41 +152,34 @@ int numElementos(Nolista** l){
     return i;
 }
 
-Nolista* retpoint(Nolista** l, int v){
-
+Nolista* retpoint(Nolista** l, int v) {
     Nolista* p;
-    int count = 0;
-
-    for(p = *l; p!= NULL; p = p -> prox){
-        count++;
-        if(count == v){
+    for(p = *l; p != NULL; p = p->prox) {
+        if (p->info == v) {
             return p;
         }
     }
     return NULL;
 }
 
-void imprimeOrdem(Nolista** l) {
-    if (!estaVazia(l)) {
-        Nolista* p = *l;
-        Nolista* prev = NULL;
-
-        // Encontra o último elemento
-        while (p != NULL) {
-            prev = p;
-            p = p->prox;
-        }
-
-        // Imprime do último ao primeiro
-        while (prev != NULL) {
-            p = *l;
-            while (p->prox != prev && p->prox != NULL) {
-                p = p->prox;
-            }
-            printf("%d\n", prev->info);
-            prev = (prev == *l) ? NULL : p;
-        }
-    } else {
-        printf("A lista esta vazia!");
+void ImprimeOrdem(Nolista** l){
+  Nolista* p, *ant, *temp = NULL;
+  if(!EstaVazia(l)){
+    for(p = *l; p != NULL; p = p->prox){
+    ant = p;
     }
+  while(ant != NULL){
+    printf("%d\n", ant->info);
+    p = *l;
+    temp = NULL;
+    while (p != ant) {
+      temp = p;
+      p = p->prox;
+    }
+    ant = temp;
+  }
+}
+  else{
+    printf("Lista vazia.\n");
+  }
 }

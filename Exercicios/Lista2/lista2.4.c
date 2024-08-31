@@ -176,6 +176,7 @@ int main(){
   Insereinicio(&lista, 1);
   Insereinicio(&lista, 2);
   Insereinicio(&lista, 3);
+  Insereinicio(&lista, 4);
   //ImprimeLista(&lista);
   //printf("---------\n");
   //UltimoPont(&lista);
@@ -193,10 +194,10 @@ int main(){
   //ImprimeLista(&lista);
   //printf("---------\n");
   
-  //lc = Separa(&lista, 2);
-  //ImprimeLista(&lista);
-  //printf("---------\n");
-  //ImprimeLista(&lc);
+  lista2 = Separa(&lista, 2);
+  ImprimeLista(&lista);
+  printf("---------\n");
+  ImprimeLista(&lc);
   ("---------\n");
   imprimeOrdem(&lista);
 
