@@ -88,7 +88,6 @@ float VerTopo(Pilha* p){
 
 int main(){
     Pilha* pilha = CriarPilha();
-    Linha();
     Push(pilha, 1);
     Push(pilha, 2);
     Push(pilha, 3);
