@@ -59,7 +59,7 @@ float remover(Fila* f){
         Nolista* p = f->ini;
         f->ini = p->prox;
         if(f->ini == NULL){
-            f->fim = NULL;
+            f->fim = NULL;  
         }
         float v = p->info;
         free(p);
@@ -79,8 +79,6 @@ void LiberaFila(Fila* f){
 }
 
 float retornaPrimeiro(Fila* f){
-    float a;
-    Nolista* t;
     if(!estaVazia(f)){
         return f->ini->info;
     }
