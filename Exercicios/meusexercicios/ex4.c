@@ -123,6 +123,8 @@ void ConcatenaSemTAD(Pilha* p1, Pilha* p2) {
     free(pilhaaux);
 }
 
+
+
 int main(){
     Pilha* pilha = CriarPilha();
     Pilha* pilha2 = CriarPilha();
