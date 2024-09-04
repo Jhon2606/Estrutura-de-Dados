@@ -57,6 +57,32 @@ int pertenceArv(Arvore* arv, char c){
     }
 }
 
+int contNos(Arvore* arv){
+    if(Estavazia(arv)){
+        return 0;
+    }else{
+        return 1 + contNos(arv->esq) + contNos(arv->dir);
+    }
+}
+
+int altura(Arvore* arv){
+    if(Estavazia(arv)){
+        return -1;
+    }else{
+        if(Estavazia(arv->esq) && Estavazia(arv->dir)){
+            return 0;
+        }else{
+            int he = altura(arv->esq);
+            int hd = altura(arv->dir);
+            if(he > hd){
+                return he + 1;
+            }else{
+                return hd + 1;
+            }
+        }
+    }
+}
+
 int main(){
     Arvore* f = CriarArvore('f', CriarArvoreVazia(), CriarArvoreVazia());
     Arvore* e = CriarArvore('e', CriarArvoreVazia(), CriarArvoreVazia());
@@ -67,6 +93,9 @@ int main(){
     printf("\n");
     imprimeArvore(a);
     printf("\n");
-
+    int p = contNos(a);
+    printf("A arvore tem %d nos\n", p);
+    int j = altura(a);
+    printf("A arvore tem altura de %d\n", j);
     return 0;
 }
