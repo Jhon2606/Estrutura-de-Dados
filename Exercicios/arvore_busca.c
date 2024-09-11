@@ -121,6 +121,16 @@ Arvore* remove(Arvore* a, int v){
     return a;
 }
 
+int impares(Arvore* a){
+    if(Estavazia(a)){
+        return 0;
+    }else if(a->info % 2 != 0){
+        return 1 + impares(a->esq) + impares(a->dir);
+    }else{
+        return impares(a->esq) + impares(a->dir);
+    }
+}
+
 int main(){
     Arvore* a = CriarArvore(); //depois coloca os elemetos dentro
     a = insre(a, 2);
