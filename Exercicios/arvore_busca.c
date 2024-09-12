@@ -131,6 +131,52 @@ int impares(Arvore* a){
     }
 }
 
+int contNos(Arvore* arv){
+    if(Estavazia(arv)){
+        return 0;
+    }else{
+        return 1 + contNos(arv->esq) + contNos(arv->dir);
+    }
+}
+Arvore* menor(Arvore* a){
+    if(Estavazia(a)){
+        return NULL;
+    }else if(Estavazia(a->esq)){
+        return a;
+    }else{
+        return menor(a->esq);
+    }
+}
+
+Arvore* maior(Arvore* a){
+    if(Estavazia(a)){
+        return NULL;
+    }else if(Estavazia(a->dir)){
+        return a;
+    }else{
+        return menor(a->dir);
+    }
+}
+
+void balanco(Arvore* a){
+    if(!Estavazia(a)){
+        int n = contNos(a->dir);
+        int m = contNos(a->esq);
+        Arvore* men, *mai;
+        if(n >= m + 2){
+            a->esq = insere(a->esq, a->info);
+            men = menor(a->dir);
+            a->info = men->info;
+            a->dir = remove(a->dir, men->info);
+        }else if(m >= n + 2){
+            a->dir = insere(a->dir, a->info);
+            mai = maior(a->esq);
+            a->info = mai->info;
+            a->esq = remove(a->esq, mai->info);
+        }
+    }
+}
+
 int main(){
     Arvore* a = CriarArvore(); //depois coloca os elemetos dentro
     a = insre(a, 2);
