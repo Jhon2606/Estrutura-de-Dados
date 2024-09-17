@@ -36,6 +36,8 @@ void imprimeArvore(Arvore* arv){
     printf(">");
 }
 
+
+
 Arvore* liberar(Arvore* arv){
     if(!Estavazia(arv)){
         liberar(arv->esq);
@@ -69,4 +71,4 @@ int main(){
     printf("\n");
 
     return 0;
-}
+}       

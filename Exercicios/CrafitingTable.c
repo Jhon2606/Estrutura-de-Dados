@@ -1,81 +1,76 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct nolista{
-    int info;
-    struct nolista* prox;
-}Nolista;
+typedef struct arvore{
+    char info;
+    struct arvore *esq, *dir;
+}Arvore;
 
-void criarLista(Nolista** l){
-    *l = NULL;
+Arvore* CriarArvoreVazia(){
+    return NULL;
 }
 
-int estaVazia(Nolista** l){
-    return(*l == NULL);
-}
-
-void insereElemento(Nolista** l, int v){
-    Nolista* novo = (Nolista*)malloc(sizeof(Nolista));
-    if(novo != NULL){
-        novo -> info = v;
-        novo -> prox = *l;
-        *l = novo;
-    }
-    else{
-        printf("Nao foi possivel alocar espaco\n");
-        exit(1);
+Arvore* CriarArvore(char c, Arvore* sae, Arvore* sad){
+    Arvore* a = (Arvore*)malloc(sizeof(Arvore));
+    if(a!=NULL){
+        a->info = c;
+        a->esq = sae;
+        a->dir = sad;
+        return a;
+    }else{
+        printf("Espaco nao alocado.\n");
+        return NULL;
     }
 }
 
-void imprimeelementos(Nolista** l){
-    if(!estaVazia(l)){
-        for(Nolista* p = *l;p != NULL;p = p->prox){
-            printf("%d\n", p->info);
+int EstaVazia(Arvore* arv){
+    return(arv == NULL);
+}
+
+void ImprimeArvore(Arvore* arv){
+    printf("<");
+    if(!EstaVazia(arv)){
+        printf("%c", arv->info);
+        ImprimeArvore(arv->esq);
+        ImprimeArvore(arv->dir);
+    }
+    printf(">");
+}
+
+Arvore* LiberarArvore(Arvore* arv){
+    if(!EstaVazia(arv)){
+        LiberarArvore(arv->esq);
+        LiberarArvore(arv->dir);
+        free(arv);
+    }
+    return NULL;
+}
+
+int PertenceArv(Arvore* arv, char c){
+    if(!EstaVazia(arv)){
+        if(arv->info == c){
+            return 1;
+        }else{
+            return(PertenceArv(arv->esq, c) || PertenceArv(arv->dir, c));
         }
+    }else{
+        return 0;
     }
-    else{
-        printf("A lista esta vazia!");
-    }
-}
-
-Nolista* copia(Nolista** l) {
-    Nolista* p, *novalista = NULL;
-
-    for (p = *l; p != NULL; p = p->prox) {
-        Nolista* novo = (Nolista*)malloc(sizeof(Nolista));
-        if (novo != NULL) {
-            novo->info = p->info;
-            novo->prox = novalista;
-            novalista = novo;
-        } else {
-            printf("Espaco nao alocado\n");
-            return NULL;
-        }
-    }
-
-    Nolista* anterior = NULL;
-    Nolista* atual = novalista;
-    Nolista* proximo;
-
-    for (; atual != NULL; atual = proximo) {
-        proximo = atual->prox;
-        atual->prox = anterior;
-        anterior = atual;
-    }
-
-    return anterior;
 }
 
 int main(){
-    Nolista* lista;
-    criarLista(&lista);
-    insereElemento(&lista, 1);
-    insereElemento(&lista, 2);
-    insereElemento(&lista, 3);
-    imprimeelementos(&lista);
-    Nolista* lista2 = copia(&lista);
+    Arvore* f = CriarArvore('f', CriarArvoreVazia(), CriarArvoreVazia());
+    Arvore* e = CriarArvore('e', CriarArvoreVazia(), CriarArvoreVazia());
+    Arvore* d = CriarArvore('d', CriarArvoreVazia(), CriarArvoreVazia());
+    Arvore* c = CriarArvore('c', e, f);
+    Arvore* b = CriarArvore('b', CriarArvoreVazia(), d);
+    Arvore* a = CriarArvore('a', b, c);
     printf("\n");
-    imprimeelementos(&lista2);
+    Arvore* i = LiberarArvore(a);
+    if(i == NULL){
+        printf("Vazio\n");
+    }
+    printf("\n");
+
     return 0;
 }
-
