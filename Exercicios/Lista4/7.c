@@ -91,39 +91,7 @@ Arvore* insere(Arvore* a, int v){
     }
 }
 
-Arvore* remove(Arvore* a, int v){
-    if(Estavazia(a)){
-        return NULL;
-    }else{
-        if(v < a->info){
-            a->esq = remove(a->esq, v);
-        }else if (v > a->info){
-            a->dir = remove(a->dir, v);
-        }else{
-            if(a->esq == NULL && a->dir == NULL){
-                free(a);
-                a = NULL;
-            }else if(a->esq == NULL){
-                Arvore* t = a->dir;
-                free(a);
-                a = t;
-            }else if(a->dir == NULL){
-                Arvore* t = a->esq;
-                free(a);
-                a = t;
-            }else{
-                Arvore* t = a->esq;
-                while(t->dir!=NULL){
-                    t =t->dir;
-                }
-            a->info = t->info;
-            t->info = v;
-            a->esq = remove(a->esq, v);
-            }
-        }
-    }
-    return a;
-}
+
 
 int impares(Arvore* a){
     if(Estavazia(a)){
@@ -162,32 +130,56 @@ Arvore* maior(Arvore* a){
     }
 }
 
-void balanco(Arvore* a){
-    if(!Estavazia(a)){
-        int n = contNos(a->dir);
-        int m = contNos(a->esq);
-        Arvore* men, *mai;
-        if(n >= m + 2){
-            a->esq = insere(a->esq, a->info);
-            men = menor(a->dir);
-            a->info = men->info;
-            a->dir = remove(a->dir, men->info);
-        }else if(m >= n + 2){
-            a->dir = insere(a->dir, a->info);
-            mai = maior(a->esq);
-            a->info = mai->info;
-            a->esq = remove(a->esq, mai->info);
-        }
+
+
+int ocorrencias_x(Arvore* arv, int x) {
+    if (Estavazia(arv)) {
+        return 0;
+    } else if (arv->info == x) {
+        return 1 + ocorrencias_x(arv->esq, x) + ocorrencias_x(arv->dir, x);
+    } else if (x < arv->info) {
+        return ocorrencias_x(arv->esq, x);
+    } else {
+  
+        return ocorrencias_x(arv->dir, x);
     }
 }
 
+void imprimecontrario(Arvore* arv){
+  if(!Estavazia(arv)){
+
+    imprimecontrario(arv->dir);
+
+    if(arv->esq == NULL && arv->dir == NULL){
+    printf("%d ", arv->info);
+    
+    }
+
+    imprimecontrario(arv->esq);
+
+  }
+}
+
+void imprimeArvorecrec(Arvore* arv){
+    printf("<");
+    if(!Estavazia(arv)){
+        imprimeArvorecrec(arv->esq);
+        printf("%d", arv->info);
+        imprimeArvorecrec(arv->dir); //e so mudar a ordem desses 3 para mudar a ordem de impressao
+        }
+    printf(">");
+}
+
 int main(){
-    Arvore* a = CriarArvoreVazia(); //depois coloca os elemetos dentro
-    a = insere(a, 2);
+    Arvore* a = CriarArvoreVazia();
+    a = insere(a, 10);
+    a = insere(a, 6);
+    a = insere(a, 6);
+    a = insere(a, 3);
+    a = insere(a, 8);
     a = insere(a, 4);
-    a = remove(a, 2);
     printf("\n");
-    imprimeArvore(a);
+    imprimeArvorecrec(a);
     printf("\n");
     return 0;
 }

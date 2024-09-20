@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 typedef struct arvore{
-    char info;
+    int info;
     struct arvore *esq, *dir;
 }Arvore;
 
@@ -30,7 +30,7 @@ int Estavazia(Arvore* arv){
 void imprimeArvore(Arvore* arv){
     printf("<");
     if(!Estavazia(arv)){
-        printf("%d", arv->info);
+        printf("%c", arv->info);
         imprimeArvore(arv->esq);
         imprimeArvore(arv->dir); //e so mudar a ordem desses 3 para mudar a ordem de impressao
         }
@@ -91,40 +91,6 @@ Arvore* insere(Arvore* a, int v){
     }
 }
 
-Arvore* remove(Arvore* a, int v){
-    if(Estavazia(a)){
-        return NULL;
-    }else{
-        if(v < a->info){
-            a->esq = remove(a->esq, v);
-        }else if (v > a->info){
-            a->dir = remove(a->dir, v);
-        }else{
-            if(a->esq == NULL && a->dir == NULL){
-                free(a);
-                a = NULL;
-            }else if(a->esq == NULL){
-                Arvore* t = a->dir;
-                free(a);
-                a = t;
-            }else if(a->dir == NULL){
-                Arvore* t = a->esq;
-                free(a);
-                a = t;
-            }else{
-                Arvore* t = a->esq;
-                while(t->dir!=NULL){
-                    t =t->dir;
-                }
-            a->info = t->info;
-            t->info = v;
-            a->esq = remove(a->esq, v);
-            }
-        }
-    }
-    return a;
-}
-
 int impares(Arvore* a){
     if(Estavazia(a)){
         return 0;
@@ -162,32 +128,47 @@ Arvore* maior(Arvore* a){
     }
 }
 
-void balanco(Arvore* a){
-    if(!Estavazia(a)){
-        int n = contNos(a->dir);
-        int m = contNos(a->esq);
-        Arvore* men, *mai;
-        if(n >= m + 2){
-            a->esq = insere(a->esq, a->info);
-            men = menor(a->dir);
-            a->info = men->info;
-            a->dir = remove(a->dir, men->info);
-        }else if(m >= n + 2){
-            a->dir = insere(a->dir, a->info);
-            mai = maior(a->esq);
-            a->info = mai->info;
-            a->esq = remove(a->esq, mai->info);
-        }
+int qntdeChar(Arvore* arv, char c){
+  if(Estavazia(arv)){
+    return 0;
+  }else{
+    if(arv->info == c){
+      return 1 + qntdeChar(arv->dir, c);
+    }else{
+      if(c < arv->info)
+      return qntdeChar(arv->esq, c);
+      else
+      return qntdeChar(arv->dir, c);
     }
+  }
+}
+
+int maiorex(Arvore* arv){
+    if(Estavazia(arv)){
+        return -1;
+    }
+    
+    int maiordir = maiorex(arv->dir);
+    int maiorvalor = arv->info;
+
+    if(maiordir >= maiorvalor)
+        maiorvalor = maiordir;
+
+    return maiorvalor;
 }
 
 int main(){
     Arvore* a = CriarArvoreVazia(); //depois coloca os elemetos dentro
+    a = insere(a, 1);
     a = insere(a, 2);
-    a = insere(a, 4);
-    a = remove(a, 2);
+    a = insere(a, 5);
+    a = insere(a, 9);
+    a = insere(a, 0);
+    a = insere(a, 6);
+
     printf("\n");
-    imprimeArvore(a);
-    printf("\n");
+    int i = maiorex(a);
+    printf("%d", i);
+    printf("\n"); 
     return 0;
 }
