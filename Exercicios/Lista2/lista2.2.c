@@ -1,98 +1,109 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct nolista{
-  int info;
-  struct nolista* prox;
-}Nolista;
+typedef struct noLista {
+    int info;
+    struct noLista* prox;
+    struct noLista* ant;
+}NoLista;
 
-void CriarLista(Nolista** l);
-int EstaVazia(Nolista** l);
-void InsereElemento(Nolista** l, int i);
-void imprimeRecursiva(Nolista** l);
-void liberarLista(Nolista** l) ;
-Nolista* buscaRecursiva(Nolista** l, int v);
-void removerElemento(Nolista** l, int v);
-
-int main(){
-  Nolista* lista;
-  CriarLista(&lista);
-  InsereElemento(&lista, 1);
-  InsereElemento(&lista, 2);
-  InsereElemento(&lista, 3);
-  imprimeRecursiva(&lista);
-  //liberarLista(&lista);
-  Nolista* resultado;
-  resultado = buscaRecursiva(&lista, 2);
-  if (resultado != NULL) {
-    printf("Valor 2 encontrado na lista.\n");
-  } 
-  else {
-    printf("Valor 2 nao encontrado na lista.\n");
-  }
-  removerElemento(&lista, 3);
-  imprimeRecursiva(&lista);
-
-  return 0;
+NoLista* criarVazia() {
+    NoLista* l = NULL;
+    return l;
 }
 
-void CriarLista(Nolista** l){
-  *l = NULL;
+int estaVazia(NoLista** l) {
+    return (*l == NULL);
 }
 
-int EstaVazia(Nolista** l){
-  return(*l == NULL);
+void inserirElemento(NoLista** l, int v) {
+    NoLista* novo = (NoLista*)malloc(sizeof(NoLista));
+    if (novo != NULL) {
+        novo->info = v;
+        novo->prox = *l;
+        novo->ant = NULL;
+        if (!estaVazia(l)) {
+            (*l)->ant = novo;
+        }
+        *l = novo;
+    }
+
+
 }
 
-void InsereElemento(Nolista** l, int i){
-  Nolista* temp = (Nolista*)malloc(sizeof(Nolista));
-  if(temp!=NULL){
-    temp->info = i;
-    temp->prox = *l;
-    *l = temp;
-  }
-  else{
-    printf("Nao foi possivel alocar espaco.\n");
-  }
+void imprimeListaOrdemDireta(NoLista** l) {
+    NoLista* p;
+    if (!estaVazia(l)) {
+        for (p = *l; p != NULL; p = p->prox) {
+            printf("%d\n", p->info);
+        }
+    } else {
+        printf("A lista esta vazia!\n");
+    }
 }
 
-void imprimeRecursiva(Nolista** l){
-  if(*l==NULL){
-    return;
-  }
-  imprimeRecursiva(&(*l)->prox);
-  printf("%d\n", (*l)->info);
+NoLista* ultimoElemento(NoLista** l){
+    if(!estaVazia(l)) {
+        NoLista* p;
+        for (p = *l; p->prox != NULL; p = p->prox);
+        return p;
+    } else {
+        return NULL;
+    }
 }
 
-void liberarLista(Nolista** l) {
-  Nolista* p = NULL, *temp = NULL;
-  for(p=*l; p!=NULL;p=temp){
-    temp = p->prox;
-    free(p);
-  }
-  *l = NULL;
+void imprimeListaOrdemInversa(NoLista** l) {
+    if (!estaVazia(l)) {
+        NoLista* p;
+        for (p = ultimoElemento(l); p != NULL; p = p->ant) {
+            printf("%d\n", p->info);
+        }
+    } else {
+        printf("Lista vazia!\n");
+    }
+    
 }
 
-Nolista* buscaRecursiva(Nolista** l, int v){
- if(*l==NULL){
-  return NULL;
- }
- if((*l)->info==v){
-  return *l;
- }
- return buscaRecursiva(&(*l)->prox, v);
-}
+NoLista* buscaElemento(NoLista** l, int v) {
+    NoLista* p;
+    for (p = *l; p != NULL; p = p->prox) {
+        if (p->info == v) {
+            return p;
+        }
+    }
 
-void removerElemento(Nolista** l, int v){
-  Nolista* temp;
-  if(*l==NULL){
     return NULL;
-  }
-  if((*l)->info == v){
-    temp = *l;
-    *l = (*l)->prox;
-    free(temp);
-    return;
-  }
-  removerElemento(&(*l)->prox, v);
+}
+
+void removerElemento(NoLista** l, int v) {
+    NoLista* p = buscaElemento(l, v);
+    if (p != NULL) {    
+        if (*l == p)
+            (*l) = p->prox;
+        else
+        p->ant->prox = p->prox;
+
+        if (p->prox != NULL)
+            p->prox->ant = p->ant;
+
+        free(p);
+    }
+}
+
+void liberarLista(NoLista** l) {
+    NoLista* p, *temp;
+    for (p = *l; p != NULL; p = temp) {
+        temp = p->prox;
+        free(p);
+    }
+
+    *l = NULL;
+    
+}
+
+int main() {
+
+    NoLista* lista = criarVazia();
+
+    return 0;
 }

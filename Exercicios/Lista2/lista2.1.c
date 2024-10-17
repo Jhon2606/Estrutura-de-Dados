@@ -1,58 +1,41 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//TAD
 typedef struct nolista{
   int info;
   struct nolista* prox;
 }Nolista;
 
-//Cabeçalho
 void CriarLista(Nolista** l);
 int EstaVazia(Nolista** l);
 void InsereElemento(Nolista** l, int i);
-void imprimir(Nolista** l);
-Nolista* ultimo(Nolista** l);
-int Maiores(Nolista** l, int i);
-Nolista* concatena(Nolista** l, Nolista** l2);
-Nolista* separa(Nolista** l, int n);
+void imprimeRecursiva(Nolista** l);
+void liberarLista(Nolista** l) ;
+Nolista* buscaRecursiva(Nolista** l, int v);
+void removerElemento(Nolista** l, int v);
 
 int main(){
-  //Utilizando a lista1
-  Nolista *Lista;
-  CriarLista(&Lista);
-  InsereElemento(&Lista, 5);
-  InsereElemento(&Lista, 7);
-  InsereElemento(&Lista, 3);
-  InsereElemento(&Lista, 9);
-  printf("Lista1:\n");
-  imprimir(&Lista);
-  printf("O ultimo ponteiro da lista e: %d\n", ultimo(&Lista)->info);
-  printf("O numero de nos maiores que 2 sao %d\n", Maiores(&Lista, 2));
+  Nolista* lista;
+  CriarLista(&lista);
+  InsereElemento(&lista, 1);
+  InsereElemento(&lista, 2);
+  InsereElemento(&lista, 3);
+  imprimeRecursiva(&lista);
+  //liberarLista(&lista);
+  Nolista* resultado;
+  resultado = buscaRecursiva(&lista, 2);
+  if (resultado != NULL) {
+    printf("Valor 2 encontrado na lista.\n");
+  } 
+  else {
+    printf("Valor 2 nao encontrado na lista.\n");
+  }
+  removerElemento(&lista, 3);
+  imprimeRecursiva(&lista);
 
-  //Utilizando a lista2
-  Nolista *Lista2;
-  CriarLista(&Lista2);
-  InsereElemento(&Lista2, 1);
-  InsereElemento(&Lista2, 2);
-  InsereElemento(&Lista2, 4);
-  printf("Lista2:\n");
-  imprimir(&Lista2);
-
-  //Utilizando as duas listas
-  Nolista* listajunta, *listacort;
-  //listajunta = concatena(&Lista, &Lista2);
-  //printf("Lista concatenada:\n");
-  //imprimir(&listajunta);
-  listacort = separa(&Lista, 3);
-  printf("Parte 1 da lista:\n");
-  imprimir(&Lista);
-  printf("Parte 2 da lista:\n");
-  imprimir(&listacort);
   return 0;
 }
 
-//Funçoes
 void CriarLista(Nolista** l){
   *l = NULL;
 }
@@ -73,72 +56,43 @@ void InsereElemento(Nolista** l, int i){
   }
 }
 
-void imprimir(Nolista** l){
-  Nolista* p;
-  if(!EstaVazia(l)){
-    for(p =  *l; p!=NULL; p=p->prox){
-      printf("%d\n", p->info);
-    }
+void imprimeRecursiva(Nolista** l){
+  if(*l==NULL){
+    return;
   }
-  else{
-    printf("A lista esta vazia.\n");
-  }
+  imprimeRecursiva(&(*l)->prox);
+  printf("%d\n", (*l)->info);
 }
 
-Nolista* ultimo(Nolista** l){
+void liberarLista(Nolista** l) {
   Nolista* p = NULL, *temp = NULL;
-  if(!EstaVazia(l)){
-      for(p = *l; p!=NULL; p = p->prox){
-        temp = p;
-    }
+  for(p=*l; p!=NULL;p=temp){
+    temp = p->prox;
+    free(p);
   }
-  else{
-    printf("A lista esta vazia.\n");
-  }
-  return temp;
+  *l = NULL;
 }
 
-int Maiores(Nolista** l, int i){
-  Nolista* p;
-  int j = 0;
-  if(!EstaVazia(l)){
-      for(p = *l; p!=NULL; p=p->prox){
-        if(p->info > i){
-          j++;
-        }
-    }
-  }
-  else{
-    printf("A lista esta vazia.\n");
-  }
-    return j;
+Nolista* buscaRecursiva(Nolista** l, int v){
+ if(*l==NULL){
+  return NULL;
+ }
+ if((*l)->info==v){
+  return *l;
+ }
+ return buscaRecursiva(&(*l)->prox, v);
 }
 
-Nolista* concatena(Nolista** l, Nolista** l2){
-  Nolista *p = NULL;
-  if(EstaVazia(l) || EstaVazia(l2)){
-    printf("Nao existem duas duas listas a serem concatenadas.\n");
+void removerElemento(Nolista** l, int v){
+  Nolista* temp;
+  if(*l==NULL){
     return NULL;
   }
-  else{
-    for(p =*l; p->prox!=NULL; p=p->prox);
-    p->prox = *l2;
+  if((*l)->info == v){
+    temp = *l;
+    *l = (*l)->prox;
+    free(temp);
+    return;
   }
-  return *l;
-}
-//Separa a lista ate o valor indicado e cira outra lista de onde parou
-Nolista* separa(Nolista** l, int n){
-  Nolista* p, *nova;
-  if(!EstaVazia(l)){
-    for(p=*l;p!=NULL; p=p->prox){
-      if(p->info==n){
-        nova = p->prox;
-        p->prox=NULL;
-      }
-    }
-  }
-  else{
-    printf("A lista esta vazia\n");
-  }
-  return nova;
+  removerElemento(&(*l)->prox, v);
 }

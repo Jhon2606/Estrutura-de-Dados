@@ -100,52 +100,15 @@ float maior(Fila* f){
   }
 }
 
-void CombinaFilas(Fila* f_res, Fila* f1, Fila* f2){
-    while(!EstaVazia(f1) || !EstaVazia(f2)){
-        if(!EstaVazia(f1)){
-        inserir(f_res, f1->ini->info);
-        remover(f1);
-        }
-        if(!EstaVazia(f2)){
-        inserir(f_res, f2->ini->info);
-        remover(f2);
-        }
-    }
-}
 
-void CombinaFilasRec(Fila* f_res, Fila* f1, Fila* f2){
-    if (EstaVazia(f1) && EstaVazia(f2)) {
-        return;
-    }
-    if (!EstaVazia(f1)) {
-        inserir(f_res, f1->ini->info);
-        remover(f1);
-    }
-
-    if (!EstaVazia(f2)) {
-        inserir(f_res, f2->ini->info);
-        remover(f2);
-    }
-    CombinaFilasRec(f_res, f1, f2);
-
-}
 
 int main(){
   Fila* fila = CriarFila();
-  Fila* filacomb = CriarFila();
-  Fila* fila2 = CriarFila();
   inserir(fila, 1);
   inserir(fila, 2);
   inserir(fila, 3);
   imprimeFila(fila);
-  printf("\n");
-  inserir(fila2, 4);
-  inserir(fila2, 5);
-  inserir(fila2, 6);
-  imprimeFila(fila2);
-  printf("\n");
-  CombinaFilasRec(filacomb, fila, fila2);
-  imprimeFila(filacomb);
-  printf("\n");
+  float i = maior(fila);
+  printf("[%.1f]", i);
   return 0;
 }
